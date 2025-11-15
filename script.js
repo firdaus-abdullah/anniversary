@@ -1,14 +1,20 @@
-// 🛑 CHANGE THIS TO YOUR ACTUAL ANNIVERSARY/WEDDING DATE (Year, Month-1, Day)
-// Example: May 10, 2018 is new Date(2018, 4, 10) because January is 0, February is 1, etc.
-const anniversaryDate = new Date("May 10, 2018 00:00:00").getTime();
+// 🛑 UPDATED: Firdaus & Fazlin's wedding on November 2, 2018
+// (Year, Month-1, Day) -> 2018, 10 (November), 2
+const anniversaryDate = new Date("November 2, 2018 00:00:00").getTime();
 
 // Get the current year and set the next anniversary date
 const now = new Date();
 const currentYear = now.getFullYear();
 
-// Assuming your anniversary is on the same month/day every year
-const nextAnniversaryDate = new Date(now.getMonth() < 4 ? currentYear : currentYear + 1, 4, 10).getTime(); 
-// The '4' here is for May (0=Jan, 4=May, 10=Day) - Adjust '4' and '10' to your month/day!
+// Set the next anniversary date (November 2)
+// 10 is November (0=Jan, 10=Nov, 2=Day)
+const nextAnniversaryDate = new Date(
+    now.getMonth() < 10 || (now.getMonth() === 10 && now.getDate() < 2) 
+    ? currentYear 
+    : currentYear + 1, 
+    10, 
+    2
+).getTime(); 
 
 
 function updateTimeTogether() {
@@ -40,12 +46,18 @@ function updateTimeTogether() {
 
     // --- Next Anniversary Countdown ---
     const diffUntilNext = nextAnniversaryDate - today;
-    const daysUntil = Math.ceil(diffUntilNext / oneDay);
+    const oneDayInMs = 1000 * 60 * 60 * 24;
+    const daysUntil = Math.ceil(diffUntilNext / oneDayInMs);
     
-    if (daysUntil > 0) {
+    if (daysUntil > 1) {
         document.getElementById('days-until').textContent = daysUntil;
-    } else {
+    } else if (daysUntil === 1) {
+        document.getElementById('days-until').textContent = "1 day!";
+    } else if (daysUntil === 0) {
         document.getElementById('days-until').textContent = "0! It's TODAY! 🎉";
+    } else {
+        // If the date has passed but the next year hasn't been set yet (shouldn't happen with the logic above)
+        document.getElementById('days-until').textContent = "Loading...";
     }
 }
 
