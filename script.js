@@ -38,9 +38,9 @@ function updateTimeTogether() {
 
     document.getElementById('time-together').innerHTML = `
         <p>
-            **${years}** Years, **${months}** Months, **${days}** Days, 
+            ${years} Years, ${months} Months, ${days} Days, 
             <br>
-            **${hours}** Hours, **${minutes}** Minutes, **${seconds}** Seconds
+            ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds
         </p>
     `;
 
