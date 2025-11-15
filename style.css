@@ -1,0 +1,111 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fce4ec; /* Light Pink Background */
+    color: #4a148c; /* Deep Purple Text */
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Headings and Special Text */
+h1, h2, h3, h4 {
+    font-family: 'Dancing Script', cursive;
+    color: #e91e63; /* Heart/Rose Pink */
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    font-size: 3.5em;
+    padding-top: 20px;
+}
+
+h2 {
+    font-size: 2.5em;
+}
+
+/* Header Section */
+header {
+    background: linear-gradient(135deg, #ffc0cb, #f8bbd0); /* Gradient Pink */
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+/* Main Content Layout */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Counter Section Styling */
+#counter {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(233, 30, 99, 0.3); /* Pink Shadow */
+    margin-bottom: 40px;
+}
+
+#time-together p {
+    font-size: 1.5em;
+    margin: 15px 0;
+    font-weight: bold;
+    color: #4a148c;
+}
+
+#days-until {
+    color: #e91e63;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+/* Message Section */
+#message {
+    margin-bottom: 40px;
+    padding: 30px;
+    background-color: #ffebee; /* Very Light Pink */
+    border-radius: 15px;
+}
+
+.love-note {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8em;
+    line-height: 1.5;
+    color: #d81b60; /* Darker Pink for the message */
+    white-space: pre-line; /* Keeps line breaks from the HTML */
+}
+
+/* Gallery Section */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.photo-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.photo-grid img:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #e91e63;
+    color: white;
+    padding: 15px 0;
+    margin-top: 50px;
+}
