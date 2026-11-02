@@ -1,57 +1,353 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Anniversary, My Love! ❤️</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
-</head>
-<body>
+    <title>Happy 8th Anniversary | Firdaus & Fazlin ❤️</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome & Canvas Confetti -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <header>
-        <h1>Firdaus & Fazlin</h1>
-        <h2>Happy 7th Anniversary!</h2>
-        <p>Since: November 2, 2018</p>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blush: {
+                            50: '#fff5f7',
+                            100: '#ffe3ec',
+                            200: '#ffcadb',
+                            300: '#ff9ebb',
+                            400: '#ff6290',
+                            500: '#f83b73',
+                        },
+                        champagne: {
+                            50: '#fdfbf7',
+                            100: '#f9f4e8',
+                            200: '#f3e6cd',
+                            300: '#e9d3a7',
+                            400: '#dcbb7a',
+                            500: '#ca9e50',
+                        },
+                        rosewood: {
+                            600: '#9b2c46',
+                            700: '#7e1d35',
+                            800: '#5a1324',
+                        }
+                    },
+                    fontFamily: {
+                        dancing: ['Dancing Script', 'cursive'],
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #f9f4e8 40%, #ffe3ec 75%, #fff5f7 100%);
+            color: #5a1324;
+            overflow-x: hidden;
+        }
+
+        .cursive-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .glass-card-light {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(220, 187, 122, 0.35);
+            box-shadow: 0 15px 35px rgba(248, 59, 115, 0.08);
+        }
+
+        .text-rose-gold {
+            background: linear-gradient(135deg, #9b2c46 0%, #f83b73 50%, #ca9e50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .wax-seal {
+            background: radial-gradient(circle, #ff6290 0%, #9b2c46 80%, #5a1324 100%);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 6px 18px rgba(126, 29, 53, 0.3);
+        }
+
+        .letter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-in-out;
+            opacity: 0;
+        }
+
+        .letter-open {
+            max-height: 2000px;
+            opacity: 1;
+        }
+
+        .polaroid-frame {
+            background: #ffffff;
+            padding: 14px 14px 28px 14px;
+            box-shadow: 0 12px 30px rgba(126, 29, 53, 0.12);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(243, 230, 205, 0.6);
+        }
+
+        .polaroid-frame:hover {
+            transform: translateY(-8px) rotate(0deg) scale(1.02);
+            box-shadow: 0 20px 40px rgba(126, 29, 53, 0.2);
+            z-index: 20;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff5f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff9ebb;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="relative selection:bg-blush-200 selection:text-rosewood-800">
+
+    <!-- Interactive Falling Rose Petals & Floating Hearts Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Floating Audio & Music Controls -->
+    <header class="fixed top-4 right-4 z-50">
+        <button id="musicToggleBtn" onclick="toggleAudio()" class="glass-card-light hover:bg-white text-rosewood-700 px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium flex items-center gap-2.5 transition-all shadow-lg border border-champagne-300 active:scale-95 group">
+            <i id="musicIcon" class="fas fa-heart text-blush-500 group-hover:scale-110 transition-transform"></i>
+            <span id="musicText">🎵 Play Romantic Melody</span>
+            <span id="visualizer" class="hidden flex items-end gap-1 h-3 ml-1">
+                <span class="w-0.5 bg-blush-500 animate-[bounce_1s_infinite_100ms] h-full"></span>
+                <span class="w-0.5 bg-blush-500 animate-[bounce_1s_infinite_300ms] h-2"></span>
+                <span class="w-0.5 bg-blush-500 animate-[bounce_1s_infinite_200ms] h-3"></span>
+            </span>
+        </button>
     </header>
 
-    <main>
-        <section id="counter">
-            <h3>Counting Every Moment With You...</h3>
-            <div id="time-together">
-                <p>Loading our story...</p>
-            </div>
+    <main class="relative z-10 max-w-5xl mx-auto px-4 py-8 sm:px-8 space-y-20 sm:space-y-28">
+
+        <!-- ================= 1. HERO SECTION ================= -->
+        <section class="min-h-[80vh] flex flex-col justify-center items-center text-center relative pt-10">
             
-            <div id="next-anniversary">
-                <h4>Only <span id="days-until"></span> days until our next adventure!</h4>
+            <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/80 border border-champagne-300 text-rosewood-700 text-xs sm:text-sm font-medium mb-6 shadow-sm backdrop-blur-md">
+                <i class="fas fa-heart text-blush-400"></i>
+                <span class="uppercase tracking-widest text-[10px] sm:text-xs">Since: November 2, 2018</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-champagne-400"></span>
+                <span class="font-bold">Happy 8th Anniversary!</span>
+            </div>
+
+            <div class="space-y-4 max-w-4xl">
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight">
+                    <span class="cursive-font text-6xl sm:text-8xl md:text-9xl text-rose-gold font-normal block mb-1 drop-shadow-sm">
+                        Firdaus & Fazlin
+                    </span>
+                </h1>
+                
+                <h2 class="text-xl sm:text-3xl font-serif italic text-rosewood-600 tracking-wide">
+                    Happy 8th Anniversary! ❤️
+                </h2>
+
+                <p class="text-xs sm:text-base text-rosewood-700 font-light max-w-2xl mx-auto leading-relaxed px-4 pt-2">
+                    Celebrating 8 wonderful years together, blessed with our 3 lovely children: 
+                    <strong class="text-rosewood-800 font-semibold">Muhammad Al-Fateh</strong>, 
+                    <strong class="text-rosewood-800 font-semibold">Muhammad Al-Fayyad</strong>, and 
+                    <strong class="text-rosewood-800 font-semibold">Maryam Falisa</strong>.
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <button onclick="triggerConfetti()" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-blush-400 to-blush-500 text-white font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                    <i class="fas fa-sparkles"></i> Celebrate Our Love
+                </button>
+                <a href="#message" class="px-7 py-3.5 rounded-full glass-card-light text-rosewood-700 hover:bg-white font-medium text-xs sm:text-sm border border-champagne-300 transition-all flex items-center gap-2">
+                    <i class="fas fa-envelope-open-text text-blush-400"></i> Read Firdaus' Letter
+                </a>
             </div>
         </section>
 
-        <section id="message">
-            <p class="love-note">
-                My dearest Fazlin,
-                <br><br>
-                Every year with you feels like a beautiful dream I never want to wake up from. Thank you for your laughter, your endless support, and for making every day feel like an adventure. You are my greatest joy and the best thing that has ever happened to me. Here's to forever!
-                <br><br>
-                All my love,<br>
-                Firdaus
-            </p>
-        </section>
 
-        <section id="gallery">
-            <h3>Our Favorite Memories</h3>
-            <div class="photo-grid">
-                <img src="your-photo-1.jpg" alt="A lovely memory">
-                <img src="your-photo-2.jpg" alt="Another sweet memory">
-                <img src="your-photo-3.jpg" alt="A fun memory">
+        <!-- ================= 2. LIVE TIME TOGETHER COUNTER ================= -->
+        <section id="counter" class="glass-card-light rounded-3xl p-6 sm:p-10 border border-champagne-300 shadow-lg text-center space-y-8">
+            <div class="space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-500">Every Single Moment Counts</span>
+                <h3 class="text-2xl sm:text-4xl font-serif font-bold text-rosewood-800">Counting Every Moment With You...</h3>
+                <p class="text-xs sm:text-sm text-rosewood-600 font-light">Real-time timer since our wedding day on November 2, 2018</p>
+            </div>
+
+            <div id="time-together" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4 text-center">
+                <div class="bg-white/90 rounded-2xl p-3 sm:p-4 border border-blush-200 shadow-sm">
+                    <span id="yearsVal" class="block text-2xl sm:text-4xl font-serif font-bold text-blush-500">8</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-rosewood-600 font-medium">Years</span>
                 </div>
+                <div class="bg-white/90 rounded-2xl p-3 sm:p-4 border border-blush-200 shadow-sm">
+                    <span id="monthsVal" class="block text-2xl sm:text-4xl font-serif font-bold text-rosewood-800">0</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-rosewood-600 font-medium">Months</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-3 sm:p-4 border border-blush-200 shadow-sm">
+                    <span id="daysVal" class="block text-2xl sm:text-4xl font-serif font-bold text-rosewood-800">0</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-rosewood-600 font-medium">Days</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-3 sm:p-4 border border-blush-200 shadow-sm">
+                    <span id="hoursVal" class="block text-2xl sm:text-4xl font-serif font-bold text-rosewood-800">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-rosewood-600 font-medium">Hours</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-3 sm:p-4 border border-blush-200 shadow-sm">
+                    <span id="minsVal" class="block text-2xl sm:text-4xl font-serif font-bold text-rosewood-800">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-rosewood-600 font-medium">Minutes</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-3 sm:p-4 border border-blush-200 shadow-sm">
+                    <span id="secsVal" class="block text-2xl sm:text-4xl font-serif font-bold text-blush-500">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-rosewood-600 font-medium">Seconds</span>
+                </div>
+            </div>
+
+            <!-- Next Anniversary Countdown -->
+            <div id="next-anniversary" class="pt-4 border-t border-champagne-200">
+                <h4 class="text-sm sm:text-lg font-serif text-rosewood-700">
+                    <i class="fas fa-hourglass-half text-champagne-500 mr-2"></i>
+                    Only <span id="days-until" class="font-bold text-blush-500 text-xl sm:text-2xl underline decoration-champagne-400">365</span> days until our next adventure!
+                </h4>
+            </div>
         </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 All Rights Reserved | Built with Love</p>
-    </footer>
 
-    <script src="script.js"></script>
-</body>
-</html>
+        <!-- ================= 3. LOVE NOTE / MESSAGE SECTION ================= -->
+        <section id="message" class="scroll-mt-20">
+            <div class="glass-card-light rounded-3xl p-6 sm:p-10 border border-champagne-300 relative shadow-lg">
+                
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-champagne-200 pb-6">
+                    <div class="flex items-center gap-4 text-center sm:text-left">
+                        <div class="w-14 h-14 rounded-full wax-seal flex items-center justify-center text-white text-xl font-serif font-bold shrink-0">
+                            F&F
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-xl sm:text-2xl font-bold text-rosewood-800">A Message From My Heart</h3>
+                            <p class="text-xs text-rosewood-600">November 2, 2018 — Forever</p>
+                        </div>
+                    </div>
+
+                    <button onclick="toggleLetter()" id="letterToggleBtn" class="px-6 py-3 rounded-full bg-blush-400 hover:bg-blush-500 text-white text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shadow-md active:scale-95 shrink-0">
+                        <i id="letterBtnIcon" class="fas fa-envelope"></i>
+                        <span id="letterBtnText">Unseal Envelope</span>
+                    </button>
+                </div>
+
+                <!-- Collapsible Romantic Message -->
+                <div id="letterBody" class="letter-content">
+                    <div class="bg-white rounded-2xl p-6 sm:p-10 text-rosewood-800 font-serif text-base sm:text-lg leading-relaxed space-y-6 mt-6 shadow-inner border border-blush-100 relative">
+                        <div class="absolute top-4 right-6 text-blush-100 text-6xl font-cursive opacity-40 select-none pointer-events-none">Fazlin</div>
+
+                        <p class="love-note text-rosewood-800 font-bold text-lg sm:text-xl">
+                            My dearest Fazlin,
+                        </p>
+                        
+                        <p>
+                            Every year with you feels like a beautiful dream I never want to wake up from. Thank you for your laughter, your endless support, and for making every day feel like an adventure.
+                        </p>
+
+                        <p>
+                            You have blessed my life beyond words, not only as my beloved wife but as the wonderful mother to our three sweet children—Muhammad Al-Fateh, Muhammad Al-Fayyad, and Maryam Falisa.
+                        </p>
+
+                        <p>
+                            You are my greatest joy and the best thing that has ever happened to me. Here's to forever!
+                        </p>
+
+                        <div class="pt-4 border-t border-blush-100 flex flex-col items-start">
+                            <span class="text-xs font-sans uppercase tracking-widest text-rosewood-600">All my love,</span>
+                            <span class="cursive-font text-3xl sm:text-4xl text-blush-500 font-bold">Firdaus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="letterPrompt" class="text-center text-xs text-rosewood-600 italic mt-4">
+                    Click "Unseal Envelope" above to open the letter.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ================= 4. "8 REASONS I'LL LOVE YOU FOREVER" CARD DECK ================= -->
+        <section class="glass-card-light rounded-3xl p-6 sm:p-10 text-center relative border border-champagne-300">
+            <div class="max-w-xl mx-auto space-y-2 mb-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-500">8 Years • 8 Promises</span>
+                <h3 class="text-2xl sm:text-4xl font-serif font-bold text-rosewood-800">Reasons I Love You</h3>
+                <p class="text-xs sm:text-sm text-rosewood-600 font-light">Draw a card for each golden year of our marriage</p>
+            </div>
+
+            <div class="max-w-xl mx-auto min-h-[150px] bg-white rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center relative shadow-sm border border-blush-100 my-4 transition-all duration-300">
+                <div class="absolute top-3 left-4 text-[10px] font-sans font-bold text-rosewood-700 bg-blush-100 px-3 py-1 rounded-full">
+                    Reason #<span id="reasonCounter">1</span>
+                </div>
+                <i class="fas fa-quote-left absolute top-4 right-4 text-blush-200 text-3xl"></i>
+                <p id="reasonText" class="font-serif text-lg sm:text-xl text-rosewood-800 italic leading-relaxed px-4 pt-2">
+                    "Your gentle smile still brightens my world just as it did when we first married."
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3 mt-6">
+                <button onclick="prevReason()" class="px-5 py-2.5 rounded-full bg-white hover:bg-blush-50 text-rosewood-700 text-xs border border-champagne-300 transition-all active:scale-95 shadow-sm">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button onclick="randomReason()" class="px-7 py-3 rounded-full bg-gradient-to-r from-blush-400 to-blush-500 text-white font-medium text-xs sm:text-sm shadow-md transition-all active:scale-95 flex items-center gap-2">
+                    <i class="fas fa-sparkles"></i> Next Reason
+                </button>
+                <button onclick="nextReason()" class="px-5 py-2.5 rounded-full bg-white hover:bg-blush-50 text-rosewood-700 text-xs border border-champagne-300 transition-all active:scale-95 shadow-sm">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= 5. PHOTO GALLERY ================= -->
+        <section id="gallery" class="space-y-8">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-500">Memories We Cherish</span>
+                <h3 class="text-3xl sm:text-5xl font-serif font-bold text-rosewood-800">Our Favorite Memories</h3>
+                <p class="text-xs sm:text-sm text-rosewood-600 font-light">Snapshots of our journey, love, and family</p>
+            </div>
+
+            <div class="photo-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-4">
+                
+                <!-- Polaroid 1 -->
+                <div class="polaroid-frame rounded-xl text-rosewood-800 rotate-[-2deg]">
+                    <div class="w-full h-64 rounded-lg bg-blush-50 overflow-hidden border border-blush-100 flex items-center justify-center">
+                        <img src="your-photo-1.jpg" alt="A lovely memory" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-6 text-center\'><i class=\'fas fa-heart text-blush-400 text-4xl mb-2\'></i><p class=\'font-serif font-semibold text-rosewood-800\'>A Lovely Memory</p></div>';">
+                    </div>
+                    <p class="font-serif italic text-xs sm:text-sm text-center text-rosewood-700 mt-4">"A lovely memory with you"</p>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div class="polaroid-frame rounded-xl text-rosewood-800 rotate-[2deg]">
+                    <div class="w-full h-64 rounded-lg bg-blush-50 overflow-hidden border border-blush-100 flex items-center justify-center">
+                        <img src="your-photo-2.jpg" alt="Another sweet memory" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-6 text-center\'><i class=\'fas 
